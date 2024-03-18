@@ -15,6 +15,6 @@
 <body>
 	<h1>메인</h1>
 	<a href="boardlist">글목록</a>
-	<a href="Login">로그인 세션 얻기</button>
+	<a href="login">로그인 세션 얻기</button>
 </body>
 </html>

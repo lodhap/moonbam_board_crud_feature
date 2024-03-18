@@ -8,4 +8,12 @@
 	<select id="getPost" parameterType="string" resultType="PostDTO">
 		select * from postdb where postid = #{postId}
 	</select>
+	
+	<select id="getPostPage" parameterType="String" resultType="PostPageDTO">
+		select * from postdb join postinfodb using (postid) join (select postId, count(isLike) likenum from likedb where postid=#{postId} group by postid) using (postid)
+	</select>
+	
+	<select id="getIsLike" parameterType="hashmap" resultType="String">
+		select islike from likedb where postid=#{postId} and userid=#{userId}
+	</select>
 </mapper>

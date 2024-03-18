@@ -11,10 +11,17 @@
 </head>
 <body>
 	<h1>글보기 페이지</h1>
-	${post.postTitle }<br>
-	${post.postText }<br>
-	${post.nickname }<br>
-	${sessionScope.loginUser.userId }
-	<%-- <c:if test="${post.nickname==}"> --%>
+	글 제목 : ${postPage.postTitle }<br>
+	글 내용 : ${postPage.postText }<br>
+	작성자 : ${postPage.nickname}<br>
+	조회수 : ${postPage.viewNum}<br>
+	추천수 : ${postPage.likeNum}<br>
+	로그인 유저 아이디 : ${sessionScope.loginUser.nickname == null ? "없음": sessionScope.loginUser.nickname}<br>
+	좋아요 누름 여부 : ${isLike}
+	
+	<c:if test="${postPage.nickname==sessionScope.loginUser.nickname}">
+		<button>수정</button>
+		<button>삭제</button>
+	</c:if>
 </body>
 </html>
