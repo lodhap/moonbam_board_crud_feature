@@ -1,5 +1,6 @@
 package com.moonbam.controller.board;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +19,7 @@ import com.moonbam.service.BoardService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 
 @Controller
@@ -26,10 +28,24 @@ public class BoardController {
 	@Autowired
 	BoardService service;
 	
+	
+	
 	@RequestMapping(value="/", method=RequestMethod.GET)
 	public String main() {
 		return "main";
 	}
+	
+	//임시 로그인세션 지급
+	@RequestMapping(value="/login", method = RequestMethod.GET)
+	public String getPost(HttpSession session) {
+		session.setAttribute("loginUser", new MemberDTO("1", "123456789", "aaa1", "111111", "2222222", "male",
+				"bsj", "010", "2469", "6235", "bsj4387",
+				"naver.com", "2024/01/22", "1"));
+		System.out.println("loginUser session get");
+		return "main";
+	}
+	
+	// 글목록 
 	@RequestMapping(value="/boardlist", method=RequestMethod.GET)
 	public String boardlist(HttpServletRequest request) {
 		List<PostDTO> posts = service.getPosts();
@@ -38,9 +54,10 @@ public class BoardController {
 		return "boardList";
 	}
 	
+	// 글보기 페이지
 	@RequestMapping(value="/post", method = RequestMethod.GET)
 	public String getPost(HttpServletRequest request, String postId, HttpSession session) {
-//		System.out.println("postid: " + postId);
+		// System.out.println("postid: " + postId);
 		
 		// 글 페이지 정보 가져오기
 		PostPageDTO postPage= service.getPostPage(postId);
@@ -59,14 +76,15 @@ public class BoardController {
 		return "postViewer";
 	}
 	
-//	임시로그인세션 지급구문
-	@RequestMapping(value="/login", method = RequestMethod.GET)
-	public String getPost(HttpSession session) {
-		session.setAttribute("loginUser", new MemberDTO("1", "123456789", "aaa1", "111111", "2222222", "male",
-				"bsj", "010", "2469", "6235", "bsj4387",
-				"naver.com", "2024/01/22", "1"));
-		System.out.println("loginUser session get");
-		return "main";
+	@RequestMapping(value="/postEditor", method = RequestMethod.GET)
+	public String postEditor() {
+		return "postEditor";
+	}
+	
+	@ResponseBody
+    @RequestMapping("/post/image")
+    public void fileUpload( ) {
+		
 	}
 	
 }

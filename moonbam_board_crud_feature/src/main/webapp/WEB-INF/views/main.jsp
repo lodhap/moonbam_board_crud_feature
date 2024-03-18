@@ -14,7 +14,10 @@
 </head>
 <body>
 	<h1>메인</h1>
-	<a href="boardlist">글목록</a>
-	<a href="login">로그인 세션 얻기</button>
+	<a href="login">로그인 세션 얻기</a><br>
+	<hr>
+	<a href="boardlist">글목록</a><br><br>
+	<a href="postEditor">글작성</a><br><br>
+	
 </body>
 </html>
