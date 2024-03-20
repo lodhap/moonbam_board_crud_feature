@@ -20,32 +20,36 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
 <script src="../common/UploadAdapter.js"></script>
-<script src="https://cdn.ckeditor.com/ckeditor5/41.0.0/classic/ckeditor.js"></script> <!-- ckeditor 사용을 위한 js -->
-<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/translations/ko.js"></script>
+<!-- //ckeditor -->
+<script src="https://cdn.ckeditor.com/ckeditor5/12.4.0/classic/ckeditor.js"></script>
+<!-- //이미지 업로드 어댑터 -->
+<script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script>
 </head>
 <body>
-	<h1>Editor</h1>
-	<form action="post" method="post">
-		<select name="postBoard">
-			<option>자유게시판</option>
-			<option>정보게시판</option>
-		</select><br>
-	    <input type="text" placeholder="제목" name="postTitle"/><br>
-	    <textarea id="content" name="postText"></textarea><br>
+	editor
+	<form action="/" method="POST">
+	    <input name="title" type="text" placeholder="제목"/><br>
+	    <textarea name="content" id=editor></textarea><br>
 	    <input type="submit" value="등록">
 	</form>
 </body>
 <script>
 
-    ClassicEditor.create( document.querySelector( '#content' ), {
+    let myEditor;
 
-        language: "ko",
-		ckfinder : {
-            uploadUrl: "/app/image/upload",
-            withCredentials: true
-        }
-    });
-
+    ClassicEditor
+        .create(document.querySelector('#editor'), {
+            ckfinder: {
+                uploadUrl : '/app/image/upload'
+            }
+        })
+        .then(editor => {
+            myEditor = editor;
+            console.log('Editor was initialized');
+        })
+        .catch(error => {
+            console.error(error);
+        });
 </script>
 
 </script>

@@ -1,11 +1,16 @@
 package com.moonbam.service;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartRequest;
 
 import com.moonbam.dao.BoardDAO;
 import com.moonbam.dto.PostDTO;
@@ -28,5 +33,8 @@ public class BoardService {
 	}
 	public String getIsLike(Map<String, String> map) {
 		return dao.getIsLike(map);
+	}
+	public void postPost(PostDTO post) {
+		dao.postPost(post);
 	}
 }

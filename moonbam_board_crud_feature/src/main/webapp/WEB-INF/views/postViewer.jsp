@@ -19,9 +19,12 @@
 	로그인 유저 아이디 : ${sessionScope.loginUser.nickname == null ? "없음": sessionScope.loginUser.nickname}<br>
 	좋아요 누름 여부 : ${isLike}
 	
+	<br><br>
 	<c:if test="${postPage.nickname==sessionScope.loginUser.nickname}">
 		<button>수정</button>
-		<button>삭제</button>
+		<button>삭제</button><br><br>
 	</c:if>
+	
+	<a href="boardlist">글목록</a>
 </body>
 </html>

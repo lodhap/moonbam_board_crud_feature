@@ -10,10 +10,20 @@
 	</select>
 	
 	<select id="getPostPage" parameterType="String" resultType="PostPageDTO">
-		select * from postdb join postinfodb using (postid) join (select postId, count(isLike) likenum from likedb where postid=#{postId} group by postid) using (postid)
+		select * from postdb join postinfodb using (postid) 
+		left outer join (select postId, count(isLike) likenum from likedb where postid=#{postId} group by postid) using (postid)
+		 where postid=#{postId}
 	</select>
 	
-	<select id="getIsLike" parameterType="hashmap" resultType="String">
+	<select id="getIsLike" parameterType="map" resultType="String">
 		select islike from likedb where postid=#{postId} and userid=#{userId}
 	</select>
+	
+	<insert id="postPost" parameterType="PostDTO">
+	    <selectKey keyProperty="postId" resultType="long" order="BEFORE">
+	        SELECT POSTIDSEQ.NEXTVAL AS postId FROM DUAL
+	    </selectKey>
+	    INSERT INTO postDB (postid, postBoard, userid, contid, postTitle, postDate, postEditDate, postText, nickname, categoryId)
+	    VALUES (#{postId}, #{postBoard}, #{userId}, #{contId, jdbcType=NUMERIC}, #{postTitle}, sysdate, null, #{postText}, #{nickname}, #{categoryId, jdbcType=NUMERIC})
+	</insert>
 </mapper>

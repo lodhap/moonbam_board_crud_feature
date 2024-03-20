@@ -1,4 +1,4 @@
-class UploadAdapter {
+export default class UploadAdapter {
     constructor(loader) {
         this.loader = loader;
     }
@@ -13,7 +13,7 @@ class UploadAdapter {
 
     _initRequest() {
         const xhr = this.xhr = new XMLHttpRequest();
-        xhr.open('POST', 'http://localhost:8090/app/post/image', true);
+        xhr.open('POST', 'http://localhost:8000/api/image/upload', true);
         xhr.responseType = 'json';
     }
 
@@ -31,7 +31,7 @@ class UploadAdapter {
             }
 
             resolve({
-                default: response.url
+                default: response.url //업로드된 파일 주소
             })
         })
     }

@@ -26,6 +26,8 @@
 			</tr>
 		</c:forEach>
 	</table>
+	<br>
+	<a href="/app">메인으로</a>
 	
 	
 	<%-- ${posts } --%>

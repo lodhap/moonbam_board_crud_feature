@@ -24,14 +24,10 @@
 <script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/translations/ko.js"></script>
 </head>
 <body>
-	<h1>Editor</h1>
-	<form action="post" method="post">
-		<select name="postBoard">
-			<option>자유게시판</option>
-			<option>정보게시판</option>
-		</select><br>
-	    <input type="text" placeholder="제목" name="postTitle"/><br>
-	    <textarea id="content" name="postText"></textarea><br>
+	editor
+	<form action="/" method="POST">
+	    <input name="title" type="text" placeholder="제목"/><br>
+	    <textarea name="content" id="content"></textarea><br>
 	    <input type="submit" value="등록">
 	</form>
 </body>

@@ -34,7 +34,13 @@ public class BoardDAO {
 	}
 
 	public String getIsLike(Map<String, String> map) {
+		System.out.println("dao: " + map);
 		return session.selectOne("getIsLike", map);
+	}
+
+	public void postPost(PostDTO post) {
+		session.insert("postPost", post);
+		post.getPostId();
 	}
 
 }
