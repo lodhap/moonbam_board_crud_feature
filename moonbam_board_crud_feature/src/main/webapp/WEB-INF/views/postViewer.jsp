@@ -8,6 +8,34 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+	$(document).ready(function(){
+		
+		$("#deletePost").on("click", deletePost);
+	})
+	
+	function deletePost(e){
+		var postId = $(this).attr("data-postId")
+		var userId = $(this).attr("data-userId")
+		$.ajax(
+			{
+				type: "delete",
+				url:"post",
+				data: {
+					"postId": postId,
+					"userId": userId
+				},
+				success: function(data, status, xhr){
+					alert(data);
+					window.location.href = "boardlist"
+				},
+				error: function(xhr, status, e){
+					alert("삭제 중 오류가 발생했습니다.");
+				}
+			}//json	
+		);//ajax
+	}
+</script>
 </head>
 <body>
 	<h1>글보기 페이지</h1>
@@ -21,8 +49,15 @@
 	
 	<br><br>
 	<c:if test="${postPage.nickname==sessionScope.loginUser.nickname}">
-		<button>수정</button>
-		<button>삭제</button><br><br>
+		<form action="postEditor">
+			<input type="hidden" value="${postPage.postId }" name="postId">
+			<input type="hidden" value="${postPage.postBoard }" name="postBoard">
+			<input type="hidden" value="${postPage.postTitle }" name="postTitle">
+			<input type="hidden" value="${postPage.postText }" name="postText">
+			<button>수정</button>
+		</form>
+		
+		<button id="deletePost" data-postId="${postPage.postId }" data-userId="${postPage.userId }">삭제</button><br><br>
 	</c:if>
 	
 	<a href="boardlist">글목록</a>

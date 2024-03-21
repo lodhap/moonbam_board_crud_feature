@@ -37,4 +37,7 @@ public class BoardService {
 	public void postPost(PostDTO post) {
 		dao.postPost(post);
 	}
+	public int deletePost(String postId) {
+		return dao.deletePost(postId);
+	}
 }

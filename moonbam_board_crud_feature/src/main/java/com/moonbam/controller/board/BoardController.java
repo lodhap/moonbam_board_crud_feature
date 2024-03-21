@@ -61,7 +61,7 @@ public class BoardController {
 			return "main";
 		}
 	
-	// 글목록 
+	// 글 목록 
 	@RequestMapping(value="/boardlist", method=RequestMethod.GET)
 	public String boardlist(HttpServletRequest request) {
 		List<PostDTO> posts = service.getPosts();
@@ -70,10 +70,10 @@ public class BoardController {
 		return "boardList";
 	}
 	
-	// 글보기 페이지
+	// 글 보기
 	@RequestMapping(value="/post", method = RequestMethod.GET)
 	public String getPost(HttpServletRequest request, String postId, HttpSession session) {
-		System.out.println("postid: " + postId);
+		System.out.println("글보기 postid: " + postId);
 		
 		// 글 페이지 정보 가져오기
 		PostPageDTO postPage= service.getPostPage(postId);
@@ -96,11 +96,14 @@ public class BoardController {
 		return "postViewer";
 	}
 	
+	// 글 에디터 연결
 	@RequestMapping(value="/postEditor", method = RequestMethod.GET)
-	public String postEditor() {
+	public String postEditor(PostDTO post) {
+		System.out.println("postEditor: "+post);
 		return "postEditor";
 	}
 	
+	// 글 작성
 	@RequestMapping(value="/post", method = RequestMethod.POST)
     public String postPost(PostDTO post, HttpSession session) {
 		MemberDTO loginUser = (MemberDTO) session.getAttribute("loginUser");
@@ -117,7 +120,8 @@ public class BoardController {
 		
 		return "redirect:/post?postId="+post.getPostId();
 	}
- 
+	
+	// 이미지 업로드
 	@RequestMapping(value="/image/upload", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> imageUpload(MultipartRequest request) throws Exception {
@@ -157,4 +161,45 @@ public class BoardController {
         }
     }
 	
+	// 글 삭제
+	@RequestMapping(value="/post", method = RequestMethod.DELETE)
+	@ResponseBody
+	public String deletePost(String postId, String userId, HttpSession session) {
+		System.out.println("delete method");
+		String msg = "게시글이 삭제되었습니다.";
+		MemberDTO loginUser = (MemberDTO)session.getAttribute("loginUser");
+		
+		// 로그인 정보 없음
+		if(loginUser==null) {
+			// 글 보기로 리다이렉트
+			// 알림창
+			
+			msg = "로그인 정보가 없습니다.";
+			return msg;
+		}
+		// 로그인 정보 불일치
+		else if (!loginUser.getUserId().equals(userId)) {
+			msg = "로그인 정보가 일치하지 않습니다.";
+			return msg;
+		}
+		
+		try {
+			int n = service.deletePost(postId);
+			if(n==0) {
+				msg = "게시글 정보를 찾을 수 없습니다.";
+			}
+			
+		} catch (Exception e) {
+			msg = "삭제 중 오류가 발생하였습니다."; //e.getMessage()
+		}
+		
+		return msg;
+	}
+	
+	//글 수정
+	@RequestMapping(value="/post", method = RequestMethod.PUT)
+	@ResponseBody
+	public String postPost(HttpSession session) {
+		return "";
+	}
 }

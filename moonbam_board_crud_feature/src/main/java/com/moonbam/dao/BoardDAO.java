@@ -43,4 +43,8 @@ public class BoardDAO {
 		post.getPostId();
 	}
 
+	public int deletePost(String postId) {
+		return session.delete("deletePost", postId);
+	}
+
 }

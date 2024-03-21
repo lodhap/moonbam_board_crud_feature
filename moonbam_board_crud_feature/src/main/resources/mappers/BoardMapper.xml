@@ -26,4 +26,8 @@
 	    INSERT INTO postDB (postid, postBoard, userid, contid, postTitle, postDate, postEditDate, postText, nickname, categoryId)
 	    VALUES (#{postId}, #{postBoard}, #{userId}, #{contId, jdbcType=NUMERIC}, #{postTitle}, sysdate, null, #{postText}, #{nickname}, #{categoryId, jdbcType=NUMERIC})
 	</insert>
+	
+	<delete id="deletePost" parameterType="String">
+		delete from postdb where postId=#{postId}
+	</delete>
 </mapper>
