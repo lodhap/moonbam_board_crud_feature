@@ -53,7 +53,7 @@
 			<input type="hidden" value="${postPage.postId }" name="postId">
 			<input type="hidden" value="${postPage.postBoard }" name="postBoard">
 			<input type="hidden" value="${postPage.postTitle }" name="postTitle">
-			<input type="hidden" value="${postPage.postText }" name="postText">
+			<textarea style=display:none name="postText">${postPage.postText }</textarea>
 			<button>수정</button>
 		</form>
 		

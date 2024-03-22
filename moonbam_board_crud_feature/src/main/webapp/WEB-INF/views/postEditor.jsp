@@ -32,7 +32,7 @@
 		// 로그인 세션 검사
 		// 내용, 제목, 게시판 데이터 검사
 		// 제목 최대길이 제한 검사
-		e.preventDefault();
+		//e.preventDefault();
 		
 		if ("${loginUser}" == ""){
 			e.preventDefault();
@@ -62,24 +62,56 @@
 			e.preventDefault();
 			alert("제목은 최대 50자까지 입력이 가능합니다.");
 		}
+		var postId = $("#postId").val();
+		/* postId가 있으면 수정모드로 인식하고 비동기 수정처리  */
+		if(postId!=""){
+			e.preventDefault();
+			$.ajax(
+				{
+					type: "put",
+					url:"post",
+					data: {
+						"postId": postId,
+						"postBoard": postBoard,
+						"postTitle": postTitle,
+						"postText": postText
+					},
+					success: function(data, status, xhr){
+						if(data=="성공"){
+							window.location.href = "post?postId="+postId;
+						} else{
+							alert(data);
+						}
+						
+						
+					},
+					error: function(xhr, status, e){
+						alert("수정 중 오류가 발생하였습니다.");
+					}
+				}//json	
+			);//ajax
+		}
+		
+
 	}
 </script>
 </head>
 <body>
 	<h1>Editor</h1>
 	<form action="post" method="post" id="postForm">
-		<select name="postBoard" id="postBoard">
+		<input type="hidden" name="postId" value="${post.postId}" id="postId">
+		<select name="postBoard" id="postBoard" value="${post.postBoard}">
 			<option>자유게시판</option>
 			<option>정보게시판</option>
 		</select><br>
-	    <input type="text" placeholder="제목" name="postTitle" id="postTitle"/><br>
-	    <textarea id="content" name="postText" id="postText"></textarea><br>
+	    <input type="text" placeholder="제목" name="postTitle" id="postTitle" value="${post.postTitle}"/><br>
+	    <textarea name="postText" id="postText">${post.postText}</textarea><br>
 	    <input type="submit" value="등록">
 	</form>
 </body>
 <script>
 
-    ClassicEditor.create( document.querySelector( '#content' ), {
+    ClassicEditor.create( document.querySelector( '#postText' ), {
 
         language: "ko",
 		ckfinder : {

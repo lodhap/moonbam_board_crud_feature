@@ -40,4 +40,13 @@ public class BoardService {
 	public int deletePost(String postId) {
 		return dao.deletePost(postId);
 	}
+	public String getUseridFromPost(Long postId) {
+		return dao.getUseridFromPost(postId);
+	}
+	public void mergePost(PostDTO post) {
+		dao.mergePost(post);
+		
+	}
+	
+	
 }

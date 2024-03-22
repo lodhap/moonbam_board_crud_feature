@@ -30,4 +30,23 @@
 	<delete id="deletePost" parameterType="String">
 		delete from postdb where postId=#{postId}
 	</delete>
+	
+	<select id="getUseridFromPost" parameterType="long" resultType="string">
+		select userid from postdb where postid=#{postId}
+	</select>
+	
+	<update id="mergePost" parameterType="PostDTO">
+        MERGE INTO postdb target
+        USING (SELECT 1 FROM dual) ON (target.postId = #{postId})
+        WHEN MATCHED THEN
+            UPDATE SET
+                target.postBoard = #{postBoard},
+                target.postTitle = #{postTitle},
+                target.postEditDate = SYSDATE,
+                target.postText = #{postText},
+                target.nickname = #{nickname},
+        WHEN NOT MATCHED THEN
+            INSERT (postId, postBoard, userId, contId, postTitle, postDate, postEditDate, postText, nickname, categoryId)
+            VALUES (POSTIDSEQ.NEXTVAL, #{postBoard}, #{userId}, #{contId, jdbcType=NUMERIC}, #{postTitle}, sysdate, null, #{postText}, #{nickname}, #{categoryId, jdbcType=NUMERIC})
+    </update>
 </mapper>

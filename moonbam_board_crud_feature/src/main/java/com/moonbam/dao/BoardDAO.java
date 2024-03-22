@@ -47,4 +47,13 @@ public class BoardDAO {
 		return session.delete("deletePost", postId);
 	}
 
+	public String getUseridFromPost(Long postId) {
+		return session.selectOne("getUseridFromPost", postId);
+	}
+
+	public void mergePost(PostDTO post) {
+		session.update("mergePost", post);
+		
+	}
+
 }
