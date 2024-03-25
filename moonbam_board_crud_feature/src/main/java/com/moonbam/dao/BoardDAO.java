@@ -34,7 +34,7 @@ public class BoardDAO {
 	}
 
 	public String getIsLike(Map<String, String> map) {
-		System.out.println("dao: " + map);
+		//System.out.println("dao: " + map);
 		return session.selectOne("getIsLike", map);
 	}
 
@@ -51,8 +51,8 @@ public class BoardDAO {
 		return session.selectOne("getUseridFromPost", postId);
 	}
 
-	public void mergePost(PostDTO post) {
-		session.update("mergePost", post);
+	public void updatePost(PostDTO post) {
+		session.update("updatePost", post);
 		
 	}
 

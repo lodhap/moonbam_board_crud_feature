@@ -43,8 +43,8 @@ public class BoardService {
 	public String getUseridFromPost(Long postId) {
 		return dao.getUseridFromPost(postId);
 	}
-	public void mergePost(PostDTO post) {
-		dao.mergePost(post);
+	public void updatePost(PostDTO post) {
+		dao.updatePost(post);
 		
 	}
 	

@@ -9,7 +9,17 @@
 <title>Insert title here</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
-
+	$(document).ready(function(){
+		$("#postEditor").on("click", checkLogin)
+	});
+	function checkLogin(){
+		if("${loginUser}"==""){
+			alert("로그인이 필요합니다.");
+		} else{
+			window.location.href = "postEditor";
+		}
+		
+	}
 </script>
 </head>
 <body>
@@ -18,7 +28,7 @@
 	<a href="logout">로그인 세션 제거</a><br>
 	<hr>
 	<a href="boardlist">글목록</a><br><br>
-	<a href="postEditor">글작성</a><br><br>
+	<a id="postEditor">글작성</a><br><br>
 	
 </body>
 </html>

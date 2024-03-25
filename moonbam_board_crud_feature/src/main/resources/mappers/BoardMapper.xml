@@ -35,7 +35,16 @@
 		select userid from postdb where postid=#{postId}
 	</select>
 	
-	<update id="mergePost" parameterType="PostDTO">
+	<update id="updatePost" parameterType="PostDTO">
+		UPDATE postdb SET
+                postBoard = #{postBoard},
+                postTitle = #{postTitle},
+                postEditDate = SYSDATE,
+                postText = #{postText},
+                nickname = #{nickname}
+               	where postId = #{postId}
+	</update>
+<!-- 	<update id="mergePost" parameterType="PostDTO">
         MERGE INTO postdb target
         USING (SELECT 1 FROM dual) ON (target.postId = #{postId})
         WHEN MATCHED THEN
@@ -48,5 +57,5 @@
         WHEN NOT MATCHED THEN
             INSERT (postId, postBoard, userId, contId, postTitle, postDate, postEditDate, postText, nickname, categoryId)
             VALUES (POSTIDSEQ.NEXTVAL, #{postBoard}, #{userId}, #{contId, jdbcType=NUMERIC}, #{postTitle}, sysdate, null, #{postText}, #{nickname}, #{categoryId, jdbcType=NUMERIC})
-    </update>
+    </update> -->
 </mapper>

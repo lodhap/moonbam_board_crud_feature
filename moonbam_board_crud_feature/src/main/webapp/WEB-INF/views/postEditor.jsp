@@ -32,44 +32,38 @@
 		// 로그인 세션 검사
 		// 내용, 제목, 게시판 데이터 검사
 		// 제목 최대길이 제한 검사
-		//e.preventDefault();
+		
+		e.preventDefault();
+		var postBoard = $("#postBoard").val();
+		var postTitle = $("#postTitle").val();
+		var postText = $("#postText").text();
+		var postTitle = $("#postTitle").val();
+		var postId = $("#postId").val();
 		
 		if ("${loginUser}" == ""){
-			e.preventDefault();
 			alert("로그인 정보가 없습니다.")
 		}
-		
-		var postBoard = $("#postBoard").val();
-		if(postBoard==""){
-			e.preventDefault();
+		else if(postBoard==""){
 			alert("게시판을 정해주세요.");
 		}
-		
-		var postTitle = $("#postTitle").val();
-		if(postTitle==""){
-			e.preventDefault();
+		else if(postTitle==""){
 			alert("제목을 입력해주세요.");
 		}
-		
-		var postText = $("#postText").text();
-		if(postText==""){
-			e.preventDefault();
+		else if(postText==""){
 			alert("내용을 입력해주세요.");
 		}
-		
-		var postTitle = $("#postTitle").val();
-		if(postTitle.length>50){
-			e.preventDefault();
+		else if(postTitle.length>50){
 			alert("제목은 최대 50자까지 입력이 가능합니다.");
 		}
-		var postId = $("#postId").val();
-		/* postId가 있으면 수정모드로 인식하고 비동기 수정처리  */
-		if(postId!=""){
-			e.preventDefault();
+		/* 페이지에 postId가 없으면 문제 발생 */
+		else if(postId==""){
+			alert("페이지에 문제가 발생하였습니다.");
+		} else{
 			$.ajax(
 				{
 					type: "put",
 					url:"post",
+ 					dataType: "json",
 					data: {
 						"postId": postId,
 						"postBoard": postBoard,
@@ -77,13 +71,12 @@
 						"postText": postText
 					},
 					success: function(data, status, xhr){
-						if(data=="성공"){
-							window.location.href = "post?postId="+postId;
+						//console.log(data);
+ 						if(data.msg=="성공"){
+							window.location.href = "post?postId="+data.postId;
 						} else{
-							alert(data);
-						}
-						
-						
+							alert(data.msg);
+						} 
 					},
 					error: function(xhr, status, e){
 						alert("수정 중 오류가 발생하였습니다.");

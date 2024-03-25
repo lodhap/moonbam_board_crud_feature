@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
-import com.moonbam.config.photoUtil;
+import com.google.gson.JsonObject;
 import com.moonbam.dto.MemberDTO;
 import com.moonbam.dto.PostDTO;
 import com.moonbam.dto.PostPageDTO;
@@ -100,7 +100,7 @@ public class BoardController {
 	// 글 에디터 연결
 	@RequestMapping(value="/postEditor", method = RequestMethod.GET)
 	public String postEditor(PostDTO post, Model model) {
-		System.out.println("postEditor: "+post);
+		//System.out.println("postEditor: "+post);
 		if(post !=null) {
 			model.addAttribute("post", post);
 		}
@@ -195,7 +195,7 @@ public class BoardController {
 			}
 			
 		} catch (Exception e) {
-			msg = "삭제 중 오류가 발생하였습니다."; //e.getMessage()
+			msg = "삭제 중 오류가 발생하였습니다."; //e.getMessage() 
 		}
 		
 		return msg;
@@ -207,38 +207,31 @@ public class BoardController {
 	public String postPost(HttpSession session,PostDTO post) {
 		MemberDTO loginUser = (MemberDTO) session.getAttribute("loginUser");
 		String msg ="성공";
+		
 		// 로그인세션 검사
 		if(loginUser==null) {
 			msg="로그인 정보가 없습니다.";
-			return msg;
 		}
+		
+		// 로그인 세션 정보와 글id의 글쓴이 정보가 다르면 실패
 		String userId = service.getUseridFromPost(post.getPostId());
 		System.out.println("글 수정 userId 검사: "+ userId + " " + loginUser.getUserId());
-		// post 정보가 없는 경우
-//		if(userId==null) {
-//			msg="게시글 정보가 존재하지 않습니다.";
-//			return msg;
-//		} 
-		// 로그인 세션 정보와 글쓴이 정보가 다르면 실패
 		if (!userId.equals(loginUser.getUserId())) {
-			//post 정보가 아예 없는 경우 merge 수행할 예정이라서 정상 진행
-			if(userId!=null) {
-				msg = "작성자 정보와 로그인 정보가 일치하지 않습니다.";
-				return msg;
-			}
+			msg = "작성자 정보와 로그인 정보가 일치하지 않습니다.";
 		}
 		
-		// merge : 글 작성 중에 삭제되었어도 들어감
-		// insert일 경우 키반환 - 페이지로딩에 사용
-		// update일 경우 반환x - 페이지 로딩
-		// userid, nickname 정보 담아가기
-		post.setUserId(loginUser.getUserId());
+		// update 작업
+		// nickname 정보 담아가기
 		post.setNickname(loginUser.getNickname());
-		service.mergePost(post);
+		service.updatePost(post);
 		
-		
-		
-		
-		return msg;
+		// json 형식으로 리턴
+		JsonObject obj =new JsonObject();
+
+	    obj.addProperty("msg", msg);
+	    obj.addProperty("postId", post.getPostId());
+
+
+	    return obj.toString();
 	}
 }
